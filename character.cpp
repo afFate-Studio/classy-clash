@@ -3,15 +3,19 @@
 #include <cstring>
 
 // no-args constructor
-Character::Character() : file_name{nullptr} {
+Character::Character(int w, int h) : file_name{nullptr} {
   file_name = new char[1];
   *file_name = '\0';
   width = (float)texture.width / maxFrames;
   height = (float)texture.height;
+  canvasWidth = w;
+  canvasHeight = h;
+  screenPos.x = (float)canvasWidth / 2.f - 4.f * (0.5f * width / 2.f);
+  screenPos.y = (float)canvasHeight / 2.f - 4.f * (0.5f * height);
 }
 
 // overloaded constructor
-Character::Character(char *s) : file_name{nullptr} {
+Character::Character(int w, int h, char *s) : file_name{nullptr} {
   if (s == nullptr) {
     file_name = new char[1];
     *file_name = '\0';
@@ -20,6 +24,10 @@ Character::Character(char *s) : file_name{nullptr} {
     std::strcpy(file_name, s);
     width = (float)texture.width / maxFrames;
     height = (float)texture.height;
+    canvasWidth = w;
+    canvasHeight = h;
+    screenPos.x = (float)canvasWidth / 2.f - 4.f * (0.5f * width / 2.f);
+    screenPos.y = (float)canvasHeight / 2.f - 4.f * (0.5f * height);
   }
 }
 
@@ -42,12 +50,6 @@ void Character::setRun(Texture2D runTexture, const char *file_name) {
   Character::run = LoadTexture(file_name);
 }
 
-// textures screen position
-void Character::setScreenPos(float posX, float posY) {
-  Character::screenPos.x = posX;
-  Character::screenPos.y = posY;
-}
-
 // unloading Texture2D
 void Character::unloadTexture() {
   UnloadTexture(Character::texture);
@@ -56,6 +58,8 @@ void Character::unloadTexture() {
 }
 
 const void Character::tick(const float deltaTime) {
+  worldPosLastFrame = worldPos;
+
   Vector2 direction{};
   if (IsKeyDown(KEY_W))
     direction.y -= 1.f;
@@ -93,6 +97,8 @@ const void Character::tick(const float deltaTime) {
   DrawTexturePro(texture, source, dest, Vector2{}, 0.f,
                  WHITE); // drawing idle knight sprite
 }
+
+const void Character::undoMovement() { worldPos = worldPosLastFrame; }
 
 // getters
 const Texture2D Character::getTexture() const { return texture; }

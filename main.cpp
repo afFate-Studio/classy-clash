@@ -11,13 +11,10 @@ int main() {
   // World Map
   Texture2D map{LoadTexture("nature_tileset/WorldMap.png")};
   Vector2 mapPos{0.0, 0.0};
+  const float mapScale{4.f};
 
   // Character
-  Character knight{};
-  knight.setScreenPos((float)canvasDimensions[0] / 2.f -
-                          4.f * (0.5f * (float)knight.getWidth() / 2.f),
-                      (float)canvasDimensions[1] / 2.f -
-                          4.f * (0.5f * (float)knight.getHeight()));
+  Character knight{canvasDimensions[0], canvasDimensions[1]};
 
   SetTargetFPS(60);
   while (!WindowShouldClose()) {
@@ -30,10 +27,17 @@ int main() {
     mapPos = Vector2Scale(knight.getWorldPos(), -1.f);
 
     // Draw World Map
-    DrawTextureEx(map, mapPos, 0.f, 4.f, WHITE);
+    DrawTextureEx(map, mapPos, 0.f, mapScale, WHITE);
 
     // Draw character, movement/animation logic
     knight.tick(GetFrameTime());
+
+    // check map bounds
+    if (knight.getWorldPos().x < 0 || knight.getWorldPos().y < 0 ||
+        knight.getWorldPos().x + canvasDimensions[0] > map.width * mapScale ||
+        knight.getWorldPos().y + canvasDimensions[1] > map.height * mapScale) {
+      knight.undoMovement();
+    }
 
     // Stop Drawing Canvas
     EndDrawing();

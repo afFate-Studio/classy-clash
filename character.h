@@ -8,8 +8,11 @@ private:
   Texture2D idle{LoadTexture("characters/knight_idle_spritesheet.png")};
   Texture2D run{LoadTexture("characters/knight_run_spritesheet.png")};
   char *file_name{};
+  int canvasWidth{};
+  int canvasHeight{};
   Vector2 screenPos{};
   Vector2 worldPos{};
+  Vector2 worldPosLastFrame{};
 
   // animation variables
   float rightLeft{1.f}; // Left : -1.f & right : 1.f
@@ -19,23 +22,23 @@ private:
   float updateTime{1.f / 12.f};
   float width{};
   float height{};
-  
+
   // physics
   const float speed{4.0};
 
 public:
   // constructors & destructor
-  Character();
-  Character(char *s);
+  Character(int w, int h);            // canvas width/height
+  Character(int w, int h, char *s);   // canvas width/height
   ~Character();
 
   // setters
   void setTexture(Texture2D texture);
   void setIdle(Texture2D idleTexture, const char *file_name);
   void setRun(Texture2D runTexture, const char *file_name);
-  void setScreenPos(float posX, float posY);
   void unloadTexture();
   const void tick(const float deltaTime);
+  const void undoMovement();
 
   // getters
   const Texture2D getTexture() const;
