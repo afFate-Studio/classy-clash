@@ -8,8 +8,6 @@ private:
   Texture2D idle{LoadTexture("characters/knight_idle_spritesheet.png")};
   Texture2D run{LoadTexture("characters/knight_run_spritesheet.png")};
   char *file_name{};
-  int canvasWidth{};
-  int canvasHeight{};
   Vector2 screenPos{};
   Vector2 worldPos{};
   Vector2 worldPosLastFrame{};
@@ -22,14 +20,15 @@ private:
   float updateTime{1.f / 12.f};
   float width{};
   float height{};
+  const float scale{4.f};
 
   // physics
   const float speed{4.0};
 
 public:
   // constructors & destructor
-  Character(int w, int h);            // canvas width/height
-  Character(int w, int h, char *s);   // canvas width/height
+  Character(int canvasWidth, int canvasHeight);            // canvas width/height
+  Character(int canvasWidth, int canvasHeight, char *s);   // canvas width/height
   ~Character();
 
   // setters

@@ -3,31 +3,27 @@
 #include <cstring>
 
 // no-args constructor
-Character::Character(int w, int h) : file_name{nullptr} {
+Character::Character(int canvasWidth, int canvasHeight) : file_name{nullptr} {
   file_name = new char[1];
   *file_name = '\0';
-  width = (float)texture.width / maxFrames;
-  height = (float)texture.height;
-  canvasWidth = w;
-  canvasHeight = h;
-  screenPos.x = (float)canvasWidth / 2.f - 4.f * (0.5f * width / 2.f);
-  screenPos.y = (float)canvasHeight / 2.f - 4.f * (0.5f * height);
+  width = static_cast<float>(texture.width) / maxFrames;
+  height = static_cast<float>(texture.height);
+  screenPos.x = static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
+  screenPos.y = static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
 }
 
 // overloaded constructor
-Character::Character(int w, int h, char *s) : file_name{nullptr} {
+Character::Character(int canvasWidth, int canvasHeight, char *s) : file_name{nullptr} {
   if (s == nullptr) {
     file_name = new char[1];
     *file_name = '\0';
   } else {
     file_name = new char[std::strlen(s) + 1];
     std::strcpy(file_name, s);
-    width = (float)texture.width / maxFrames;
-    height = (float)texture.height;
-    canvasWidth = w;
-    canvasHeight = h;
-    screenPos.x = (float)canvasWidth / 2.f - 4.f * (0.5f * width / 2.f);
-    screenPos.y = (float)canvasHeight / 2.f - 4.f * (0.5f * height);
+    width = static_cast<float>(texture.width) / maxFrames;
+    height = static_cast<float>(texture.height);
+    screenPos.x = static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
+    screenPos.y = static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
   }
 }
 
@@ -91,7 +87,7 @@ const void Character::tick(const float deltaTime) {
 
   Rectangle source{frame * width, 0.f, rightLeft * width, height};
 
-  Rectangle dest{screenPos.x, screenPos.y, 4.f * width, 4.f * height};
+  Rectangle dest{screenPos.x, screenPos.y, scale * width, scale * height};
 
   // Draw character
   DrawTexturePro(texture, source, dest, Vector2{}, 0.f,
