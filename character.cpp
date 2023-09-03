@@ -8,12 +8,15 @@ Character::Character(int canvasWidth, int canvasHeight) : file_name{nullptr} {
   *file_name = '\0';
   width = static_cast<float>(texture.width) / maxFrames;
   height = static_cast<float>(texture.height);
-  screenPos.x = static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
-  screenPos.y = static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
+  screenPos.x =
+      static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
+  screenPos.y =
+      static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
 }
 
 // overloaded constructor
-Character::Character(int canvasWidth, int canvasHeight, char *s) : file_name{nullptr} {
+Character::Character(int canvasWidth, int canvasHeight, char *s)
+    : file_name{nullptr} {
   if (s == nullptr) {
     file_name = new char[1];
     *file_name = '\0';
@@ -22,8 +25,10 @@ Character::Character(int canvasWidth, int canvasHeight, char *s) : file_name{nul
     std::strcpy(file_name, s);
     width = static_cast<float>(texture.width) / maxFrames;
     height = static_cast<float>(texture.height);
-    screenPos.x = static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
-    screenPos.y = static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
+    screenPos.x =
+        static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
+    screenPos.y =
+        static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
   }
 }
 
@@ -104,3 +109,7 @@ const int Character::getHeight() const { return height; }
 const int Character::getWidth() const { return Character::texture.width; }
 const float Character::getRightLeft() const { return rightLeft; }
 const Vector2 Character::getWorldPos() const { return worldPos; }
+
+const Rectangle Character::getCollisionRec() {
+  return Rectangle{screenPos.x, screenPos.y, width * scale, height * scale};
+}

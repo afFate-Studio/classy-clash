@@ -47,6 +47,7 @@ public:
   const int getWidth() const;
   const float getRightLeft() const;
   const Vector2 getWorldPos() const;
+  const Rectangle getCollisionRec();
 };
 
 #endif // _CHARACTER_H_
