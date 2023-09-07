@@ -27,8 +27,8 @@ private:
 
 public:
   // constructors & destructor
-  Character(int canvasWidth, int canvasHeight);            // canvas width/height
-  Character(int canvasWidth, int canvasHeight, char *s);   // canvas width/height
+  Character(int canvasWidth, int canvasHeight);          // canvas width/height
+  Character(int canvasWidth, int canvasHeight, char *s); // canvas width/height
   ~Character();
 
   // setters
@@ -40,13 +40,13 @@ public:
   const void undoMovement();
 
   // getters
-  const Texture2D getTexture() const;
-  const Texture2D getIdle() const;
-  const Texture2D getRun() const;
-  const int getHeight() const;
-  const int getWidth() const;
-  const float getRightLeft() const;
-  const Vector2 getWorldPos() const;
+  const Texture2D getTexture() const { return texture; }
+  const Texture2D getIdle() const { return idle; }
+  const Texture2D getRun() const { return run; }
+  const int getHeight() const { return height; }
+  const int getWidth() const { return texture.width; }
+  const float getRightLeft() const { return rightLeft; }
+  const Vector2 getWorldPos() const { return worldPos; }
   const Rectangle getCollisionRec();
 };
 

@@ -101,14 +101,6 @@ const void Character::tick(const float deltaTime) {
 
 const void Character::undoMovement() { worldPos = worldPosLastFrame; }
 
-// getters
-const Texture2D Character::getTexture() const { return texture; }
-const Texture2D Character::getIdle() const { return idle; }
-const Texture2D Character::getRun() const { return run; }
-const int Character::getHeight() const { return height; }
-const int Character::getWidth() const { return Character::texture.width; }
-const float Character::getRightLeft() const { return rightLeft; }
-const Vector2 Character::getWorldPos() const { return worldPos; }
 
 const Rectangle Character::getCollisionRec() {
   return Rectangle{screenPos.x, screenPos.y, width * scale, height * scale};
