@@ -1,4 +1,5 @@
 #include "character.h"
+#include "enemy.h"
 #include "prop.h"
 #include "raylib.h"
 #include "raymath.h"
@@ -17,6 +18,8 @@ int main() {
 
   // Character
   Character knight{canvasDimensions[0], canvasDimensions[1]};
+  // Enemy
+  Enemy goblin{Vector2{}, LoadTexture("characters/goblin_idle_spritesheet.png"), LoadTexture("goblin_run_spritesheet.png")};
 
   // array of Props
   Prop props[2]{
@@ -43,6 +46,9 @@ int main() {
 
     // Draw character, movement/animation logic
     knight.tick(GetFrameTime());
+    
+    // Draw enemies, movement/animation logic
+    goblin.tick(GetFrameTime());
 
     // check map bounds
     if (knight.getWorldPos().x < 0 || knight.getWorldPos().y < 0 ||

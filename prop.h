@@ -1,3 +1,6 @@
+#ifndef _PROP_H_
+#define _PROP_H_
+
 #include "raylib.h"
 
 class Prop {
@@ -11,3 +14,5 @@ public:
   void Render(Vector2 knightPos);
   const Rectangle getCollisionRec(Vector2 knightPos);
 };
+
+#endif

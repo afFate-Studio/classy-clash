@@ -3,9 +3,7 @@
 #include <cstring>
 
 // no-args constructor
-Character::Character(int canvasWidth, int canvasHeight) : file_name{nullptr} {
-  file_name = new char[1];
-  *file_name = '\0';
+Character::Character(int canvasWidth, int canvasHeight) {
   width = static_cast<float>(texture.width) / maxFrames;
   height = static_cast<float>(texture.height);
   screenPos.x =
@@ -14,53 +12,11 @@ Character::Character(int canvasWidth, int canvasHeight) : file_name{nullptr} {
       static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
 }
 
-// overloaded constructor
-Character::Character(int canvasWidth, int canvasHeight, char *s)
-    : file_name{nullptr} {
-  if (s == nullptr) {
-    file_name = new char[1];
-    *file_name = '\0';
-  } else {
-    file_name = new char[std::strlen(s) + 1];
-    std::strcpy(file_name, s);
-    width = static_cast<float>(texture.width) / maxFrames;
-    height = static_cast<float>(texture.height);
-    screenPos.x =
-        static_cast<float>(canvasWidth) / 2.f - scale * (0.5f * width / 2.f);
-    screenPos.y =
-        static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
-  }
-}
-
-// destructor
-Character::~Character() { delete[] file_name; }
-
-// setters
-// default no args sprite texture
-void Character::setTexture(Texture2D texture) { Character::texture = texture; }
-
-// idle sprite texture
-void Character::setIdle(Texture2D idleTexture, const char *file_name) {
-  Character::idle = idleTexture;
-  Character::idle = LoadTexture(file_name);
-}
-
-// running sprite texture
-void Character::setRun(Texture2D runTexture, const char *file_name) {
-  Character::run = runTexture;
-  Character::run = LoadTexture(file_name);
-}
-
-// unloading Texture2D
-void Character::unloadTexture() {
-  UnloadTexture(Character::texture);
-  UnloadTexture(Character::idle);
-  UnloadTexture(Character::run);
-}
-
 const void Character::tick(const float deltaTime) {
-  worldPosLastFrame = worldPos;
+  // call parent tick function
+  BaseCharacter::tick(deltaTime);
 
+  // check for movement inputs
   Vector2 direction{};
   if (IsKeyDown(KEY_W))
     direction.y -= 1.f;
@@ -71,6 +27,7 @@ const void Character::tick(const float deltaTime) {
   if (IsKeyDown(KEY_D))
     direction.x += 1.f;
 
+  // if movement switch texture to run, move character, base looking direction on movement
   if (Vector2Length(direction) != 0.f) {
     texture = run;
     worldPos =
@@ -79,29 +36,4 @@ const void Character::tick(const float deltaTime) {
   } else {
     texture = idle;
   }
-
-  // update animation
-  runningTime += deltaTime;
-  if (runningTime >= updateTime) {
-    frame++;
-    runningTime = 0.f;
-    if (frame > maxFrames) {
-      frame = 0;
-    }
-  }
-
-  Rectangle source{frame * width, 0.f, rightLeft * width, height};
-
-  Rectangle dest{screenPos.x, screenPos.y, scale * width, scale * height};
-
-  // Draw character
-  DrawTexturePro(texture, source, dest, Vector2{}, 0.f,
-                 WHITE); // drawing idle knight sprite
-}
-
-const void Character::undoMovement() { worldPos = worldPosLastFrame; }
-
-
-const Rectangle Character::getCollisionRec() {
-  return Rectangle{screenPos.x, screenPos.y, width * scale, height * scale};
 }
