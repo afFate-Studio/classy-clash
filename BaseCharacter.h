@@ -23,7 +23,7 @@ protected:
   const float scale{4.f};
 
   // physics
-  const float speed{4.0};
+  float speed{4.0};
 
 public:
   BaseCharacter();
@@ -31,7 +31,7 @@ public:
   // setters
   void unloadTexture();
   const void undoMovement();
-  const virtual void tick(const float deltaTime);
+  virtual void tick(const float deltaTime);
 
   // getters
   const Texture2D getTexture() const { return texture; }

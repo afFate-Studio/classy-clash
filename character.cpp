@@ -12,7 +12,7 @@ Character::Character(int canvasWidth, int canvasHeight) {
       static_cast<float>(canvasHeight) / 2.f - scale * (0.5f * height);
 }
 
-const void Character::tick(const float deltaTime) {
+void Character::tick(const float deltaTime) {
   // call parent tick function
   BaseCharacter::tick(deltaTime);
 

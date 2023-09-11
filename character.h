@@ -7,9 +7,10 @@ private:
 public:
   // constructors
   Character(int canvasWidth, int canvasHeight); // canvas width/height
+  Vector2 getScreenPos() { return screenPos; }
 
   // setters
-  const virtual void tick(const float deltaTime) override;
+  virtual void tick(const float deltaTime) override;
 };
 
 #endif // _CHARACTER_H_

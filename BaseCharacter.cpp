@@ -11,7 +11,7 @@ void BaseCharacter::unloadTexture() {
 
 const void BaseCharacter::undoMovement() { worldPos = worldPosLastFrame; }
 
-const void BaseCharacter::tick(const float deltaTime) {
+void BaseCharacter::tick(const float deltaTime) {
   worldPosLastFrame = worldPos;
   // update animation
   runningTime += deltaTime;

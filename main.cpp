@@ -19,7 +19,8 @@ int main() {
   // Character
   Character knight{canvasDimensions[0], canvasDimensions[1]};
   // Enemy
-  Enemy goblin{Vector2{}, LoadTexture("characters/goblin_idle_spritesheet.png"), LoadTexture("goblin_run_spritesheet.png")};
+  Enemy goblin{Vector2{}, LoadTexture("characters/goblin_idle_spritesheet.png"),
+               LoadTexture("goblin_run_spritesheet.png")};
 
   // array of Props
   Prop props[2]{
@@ -44,9 +45,12 @@ int main() {
       prop.Render(knight.getWorldPos());
     }
 
+    // Set enemies target
+    goblin.SetTarget(&knight);
+
     // Draw character, movement/animation logic
     knight.tick(GetFrameTime());
-    
+
     // Draw enemies, movement/animation logic
     goblin.tick(GetFrameTime());
 
@@ -59,11 +63,12 @@ int main() {
 
     // check collision for props
     for (auto prop : props) {
-      if (CheckCollisionRecs(knight.getCollisionRec(), prop.getCollisionRec(knight.getWorldPos()))) {
+      if (CheckCollisionRecs(knight.getCollisionRec(),
+                             prop.getCollisionRec(knight.getWorldPos()))) {
         knight.undoMovement();
       }
     }
-    
+
     // Stop Drawing Canvas
     EndDrawing();
   }
